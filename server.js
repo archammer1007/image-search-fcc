@@ -14,6 +14,17 @@ mongo.connect(url, function(err, db){
         console.log('connected to server');
     }
     
+    var searches = db.collection('searches');
+    
+    searches.createIndex(
+      {'id':1},
+      {unique:true}
+    );
+    searches.insert({
+      id: 1,
+      latest: []
+    });
+    
     routes(app,db);
     
     
