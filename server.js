@@ -1,33 +1,24 @@
-'use strict';
-
 var express = require('express');
-var routes = require('./app/routes/index.js');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var session = require('express-session');
+var routes = require('./app/routes/imgsearch.js');
+var mongo = require('mongodb').MongoClient;
+var url = 'mongodb://localhost:27017/clementinejs'
 
 var app = express();
-require('dotenv').load();
-require('./app/config/passport')(passport);
+mongo.connect(url, function(err, db){
+    
+    if (err){
+        console.log('error');
+        console.error(err);
+    }
+    else{
+        console.log('connected to server');
+    }
+    
+    routes(app,db);
+    
+    
+});
 
-mongoose.connect(process.env.MONGO_URI);
-
-app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
-app.use('/public', express.static(process.cwd() + '/public'));
-app.use('/common', express.static(process.cwd() + '/app/common'));
-
-app.use(session({
-	secret: 'secretClementine',
-	resave: false,
-	saveUninitialized: true
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-routes(app, passport);
-
-var port = process.env.PORT || 8080;
-app.listen(port,  function () {
-	console.log('Node.js listening on port ' + port + '...');
+app.listen(8080, function(){
+	console.log('Listening on port 8080');
 });
