@@ -51,7 +51,10 @@ module.exports = function(app,db){
         	console.log(error);
         	var body = JSON.parse(result.body);
         	console.log('sending result to user');
-        	res.send(body.d.results);
+        	var results = body.d.results;
+        	results.filter(trimData);
+        	//console.log(results);
+        	res.send(results);
     	})
 		
 	}
@@ -75,6 +78,18 @@ module.exports = function(app,db){
 			},
 			{upsert: true}
 		)
+	}
+	
+	//trims the bing search results
+	function trimData(imgObj){
+		delete imgObj.__metadata
+		delete imgObj.ID
+		delete imgObj.DisplayUrl
+		delete imgObj.Width
+		delete imgObj.Height
+		delete imgObj.FileSize
+		delete imgObj.ContentType
+		delete imgObj.Thumbnail
 	}
 
 }
