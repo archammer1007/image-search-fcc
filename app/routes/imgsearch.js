@@ -2,7 +2,7 @@ module.exports = function(app,db){
 	
 	var searches = db.collection('searches');
 	//first argument for program should be a bing authentication key, which will be encoded and sent with the search request
-	var authkey = new Buffer([process.argv[2],process.argv[2]].join(':')).toString('base64');
+	var authkey = new Buffer([process.env.AUTH_KEY,process.env.AUTH_KEY].join(':')).toString('base64');
 	var request = require('request').defaults({
   		headers : {
     		'Authorization' : 'Basic ' + authkey

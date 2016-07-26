@@ -1,8 +1,8 @@
 var express = require('express');
 var routes = require('./app/routes/imgsearch.js');
 var mongo = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/clementinejs'
-
+require('dotenv').load();
+var url = process.env.MONGO_URI;
 var app = express();
 mongo.connect(url, function(err, db){
     
@@ -30,6 +30,6 @@ mongo.connect(url, function(err, db){
     
 });
 
-app.listen(8080, function(){
+app.listen(process.env.PORT || 8080, function(){
 	console.log('Listening on port 8080');
 });
