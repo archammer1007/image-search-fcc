@@ -4,6 +4,7 @@ var mongo = require('mongodb').MongoClient;
 require('dotenv').load();
 var url = process.env.MONGO_URI;
 var app = express();
+console.log("hello");
 mongo.connect(url, function(err, db){
     
     if (err){
